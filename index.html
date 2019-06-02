@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+To change this license header, choose License Headers in Project Properties.
+To change this template file, choose Tools | Templates
+and open the template in the editor.
+-->
+<html>
+<head>
+	<!-- Need this line for the favicon.ico 404 error -->
+	<link rel="shortcut icon" href="">
+
+	<meta charset="UTF-8">
+	<meta name="viewport" content="width=device-width" />
+	<title> Taran's Data Viz Final Project</title>
+	<script src="https://d3js.org/d3.v4.min.js"></script>	
+	<script src="bubble_chart.js"></script>
+</head>
+<body>
+	<style>
+        		div { display: inline; }
+        		#chart { display: block; }
+        		#slideAnnotation { display: block; white-space: pre-line;}
+        		#aboutText { white-space:pre-line; }
+    </style>
+
+	<h1> CS 498 Data Visualization Final Project </h1>
+	<h3> Welcome! This visualization explores a few select different
+		manufacturers and how their fuel efficiency evolved over the last few decades. 
+		Navigating the years will give you a general idea about various trends. If the graph is empty,
+		it means there is no data for that year and fuel type combination. </h3>
+		
+	<!-- dropdown div -->
+        <div id="Filters" >
+            <label> Year: </label><div id = "yearDropDown"></div>
+            <label> Fuel Type: </label> <div id = "fuelTypeDD"></div>
+            <label id="slideAnnotation"> </label>
+        </div>
+
+	<!-- chart div -->
+
+	<div id="chart-section" >
+		<div class="chart" id="chart"><svg></svg></div>
+	</div>
+
+	<!-- essay button div -->
+	<button onclick="toggleButton()" id="aboutButton"> About the Visualization </button>
+	<label id="aboutText"></label>
+
+
+	<script>
+	// pass data to chart
+	d3.csv('./fuel_economy_short.csv', function(error, data) {
+	    if (error) {
+	        console.error('Error getting or parsing the data.');
+	        throw error;
+	    }
+	    // builds default size chart
+	    var chart = bubbleChart().width(600).height(400); 
+
+	    // data vs datum? 
+	    // .data([data]) will bind an array of data to a single svg element
+	    // .data(data).enter().append("svg") will make an svg element for each data element in the array and append 
+	    // https://stackoverflow.com/questions/13728402/what-is-the-difference-d3-datum-vs-data
+
+	    // this line will select an element with id "chart", 
+	    // call the chart function in the js file and apply it to the 
+	    // data array
+
+	    d3.select('#chart').datum(data).call(chart); // data vs datum
+	});
+	</script>
+</body>
+</html>
